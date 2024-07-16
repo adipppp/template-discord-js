@@ -3,7 +3,12 @@ const { Client, GatewayIntentBits, Events } = require("discord.js");
 
 async function main() {
     const client = new Client({
-        intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent],
+        allowedMentions: { repliedUser: false },
+        intents: [
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.MessageContent,
+        ],
     });
 
     const prefix = "d!";
@@ -11,12 +16,12 @@ async function main() {
     client.on(Events.MessageCreate, async (message) => {
         if (!message.content.startsWith(prefix)) return;
 
-        if (message.content === "ping") {
-            await message.reply("pong");
+        if (message.content === prefix + "ping") {
+            await message.reply("Pong!");
         }
     });
 
-    client.once(Events.Ready, () => {
+    client.once(Events.ClientReady, () => {
         console.log("Ready!");
     });
 
